@@ -4,11 +4,14 @@ const os = require("os");
 const path = require("path");
 
 function getCookieArgs() {
-  const cookiePath = "/etc/secrets/cookies.txt";
-  console.log("Cookie file exists:", fs.existsSync(cookiePath));
-  if (fs.existsSync(cookiePath)) {
-    console.log("Using cookies from:", cookiePath);
-    return ["--cookies", cookiePath];
+  const secretPath = "/etc/secrets/cookies.txt";
+  const writablePath = path.join(os.tmpdir(), "yt-cookies.txt");
+  
+  if (fs.existsSync(secretPath)) {
+    // Copy to writable temp location
+    fs.copyFileSync(secretPath, writablePath);
+    console.log("Cookies copied to writable path");
+    return ["--cookies", writablePath];
   }
   console.log("No cookies file found!");
   return [];
