@@ -1,8 +1,9 @@
 # 🎬 Reels / Shorts Downloader — by OM
+## Working link : [reels-downloader](https://reels-downloader-sepia.vercel.app/)
 
 A full-stack MERN web application to download **YouTube Shorts** and **Instagram Reels** as MP4 video or MP3 audio, with thumbnail preview, dynamic quality selection, and download analytics.
 
-> Made by [OM](https://instagram.com/omkedare.dev) · [@omkedare.dev](https://instagram.com/omkedare.dev)
+> Made by [OM](https://instagram.com/omkedare.dev)
 
 ---
 
@@ -255,4 +256,4 @@ Update `VITE_API_URL` in the frontend env to point to your production backend UR
 
 ---
 
-*All rights reserved · Made by OM · [@omkedare.dev](https://instagram.com/omkedare.dev)*
+*All rights reserved · Made by OM ·(https://instagram.com/omkedare.dev)*
