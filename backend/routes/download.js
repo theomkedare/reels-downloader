@@ -5,6 +5,7 @@ const path = require("path");
 const fs = require("fs");
 const os = require("os");
 const { v4: uuidv4 } = require("uuid");
+const ffmpegPath = require("ffmpeg-static");
 const { validateUrl } = require("../utils/validateUrl");
 const DownloadLog = require("../models/DownloadLog");
 
@@ -30,12 +31,25 @@ router.post("/", downloadLimiter, async (req, res) => {
 
   let ytArgs;
   if (format === "mp3") {
-    ytArgs = ["--no-playlist", "-f", "bestaudio/best", "--extract-audio",
-      "--audio-format", "mp3", "--audio-quality", "192K", "-o", outTemplate, url];
+    ytArgs = [
+  "--no-playlist",
+  "-f", "bestaudio/best",
+  "--extract-audio",
+  "--audio-format", "mp3",
+  "--audio-quality", "192K",
+  "--ffmpeg-location", ffmpegPath,  // ← add this line
+  "-o", outTemplate,
+  url,
+];
   } else {
-    ytArgs = ["--no-playlist", "-f",
-      `bestvideo[height<=${height}]+bestaudio/best[height<=${height}]/best`,
-      "--merge-output-format", "mp4", "-o", outTemplate, url];
+    ytArgs = [
+      "--no-playlist",
+      "-f", `bestvideo[height<=${height}]+bestaudio/best[height<=${height}]/best`,
+      "--merge-output-format", "mp4",
+      "--ffmpeg-location", ffmpegPath,  // ← add this line
+      "-o", outTemplate,
+      url,
+];
   }
 
   let tempFilePath = null;

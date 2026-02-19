@@ -1,3 +1,5 @@
+const ffmpegPath = require("ffmpeg-static");
+process.env.FFMPEG_BINARY = ffmpegPath;
 const { spawn } = require("child_process");
 
 function runYtDlp(args) {
