@@ -1,3 +1,6 @@
+const fs = require("fs");
+const os = require("os");
+const path = require("path");
 const ffmpegPath = require("ffmpeg-static");
 process.env.FFMPEG_BINARY = ffmpegPath;
 const { spawn } = require("child_process");
@@ -21,6 +24,15 @@ function runYtDlp(args) {
 }
 
 async function fetchVideoInfo(url) {
+  const args = ["--dump-json", "--no-playlist"];
+  
+  if (process.env.YT_COOKIES) {
+    const cookiePath = path.join(os.tmpdir(), "yt-cookies.txt");
+    fs.writeFileSync(cookiePath, process.env.YT_COOKIES);
+    args.push("--cookies", cookiePath);
+  }
+  
+  args.push(url);
   const raw = await runYtDlp(["--dump-json", "--no-playlist", url]);
   const info = JSON.parse(raw);
 
