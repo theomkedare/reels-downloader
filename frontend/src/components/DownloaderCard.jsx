@@ -52,10 +52,10 @@ export default function DownloaderCard() {
             <span className="text-emerald-400 text-xs font-medium tracking-wider uppercase">Free · Fast · No Watermark</span>
           </div>
           <h1 className="text-3xl font-extrabold font-display leading-tight">
-            <span className="gradient-text">Reels / Shorts</span><br />
+            <span className="gradient-text">Reels</span><br />
             <span className="text-white">Downloader</span>
           </h1>
-          <p className="text-white/40 text-sm mt-2">YouTube Shorts & Instagram Reels — MP4 or MP3</p>
+          <p className="text-white/40 text-sm mt-2">Instagram Reels — MP4 or MP3</p>
         </div>
 
         <div className="mx-8 my-5 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
@@ -65,7 +65,7 @@ export default function DownloaderCard() {
             <label className="text-xs font-semibold text-white/50 uppercase tracking-wider mb-2 block">Video URL</label>
             <div className="relative flex items-center">
               <input type="url" value={url} onChange={(e) => setUrl(e.target.value)}
-                placeholder="https://youtube.com/shorts/... or instagram.com/reel/..."
+                placeholder="https://instagram.com/reel/..."
                 className="w-full rounded-xl px-4 py-3 pr-20 text-sm text-white placeholder-white/25 outline-none"
                 style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)" }}
                 onFocus={(e) => { e.target.style.borderColor = "rgba(34,197,94,0.5)"; e.target.style.boxShadow = "0 0 0 3px rgba(34,197,94,0.1)"; }}
