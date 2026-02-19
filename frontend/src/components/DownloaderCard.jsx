@@ -132,7 +132,7 @@ export default function DownloaderCard() {
             All rights reserved · Made by{" "}
             <a href="https://instagram.com/omkedare.dev" target="_blank" rel="noopener noreferrer"
               className="text-emerald-400/70 hover:text-emerald-400 transition-colors">
-              OM (@omkedare.dev)
+              OM 
             </a>
           </p>
         </div>

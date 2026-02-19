@@ -1,9 +1,15 @@
+const { spawn } = require("child_process");
 const fs = require("fs");
 const os = require("os");
 const path = require("path");
-const ffmpegPath = require("ffmpeg-static");
-process.env.FFMPEG_BINARY = ffmpegPath;
-const { spawn } = require("child_process");
+
+function getCookieArgs() {
+  const cookiePath = "/etc/secrets/cookies.txt";
+  if (fs.existsSync(cookiePath)) {
+    return ["--cookies", cookiePath];
+  }
+  return [];
+}
 
 function runYtDlp(args) {
   return new Promise((resolve, reject) => {
@@ -24,36 +30,29 @@ function runYtDlp(args) {
 }
 
 async function fetchVideoInfo(url) {
-  const args = ["--dump-json", "--no-playlist"];
-  
-  if (process.env.YT_COOKIES) {
-    const cookiePath = path.join(os.tmpdir(), "yt-cookies.txt");
-    fs.writeFileSync(cookiePath, process.env.YT_COOKIES);
-    args.push("--cookies", cookiePath);
-  }
-  
-  args.push(url);
-  const raw = await runYtDlp(["--dump-json", "--no-playlist", url]);
-  const info = JSON.parse(raw);
+  const cookieArgs = getCookieArgs();
+  const raw = await runYtDlp([
+    "--dump-json",
+    "--no-playlist",
+    ...cookieArgs,
+    url
+  ]);
 
+  const info = JSON.parse(raw);
   const formatsMap = new Map();
   (info.formats || []).forEach((f) => {
     if (!f.height || f.vcodec === "none") return;
     const label = `${f.height}p`;
     if (!formatsMap.has(label) || f.tbr > (formatsMap.get(label).tbr || 0)) {
       formatsMap.set(label, {
-        formatId: f.format_id,
-        label,
-        height: f.height,
-        ext: f.ext,
-        tbr: f.tbr || 0,
+        formatId: f.format_id, label, height: f.height,
+        ext: f.ext, tbr: f.tbr || 0,
         filesize: f.filesize || f.filesize_approx || null,
       });
     }
   });
 
   const formats = Array.from(formatsMap.values()).sort((a, b) => b.height - a.height);
-
   return {
     title: info.title || "Unknown Title",
     thumbnail: info.thumbnail || null,
@@ -64,4 +63,4 @@ async function fetchVideoInfo(url) {
   };
 }
 
-module.exports = { runYtDlp, fetchVideoInfo };
+module.exports = { runYtDlp, fetchVideoInfo, getCookieArgs };
