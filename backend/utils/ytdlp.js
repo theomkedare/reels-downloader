@@ -40,6 +40,7 @@ async function fetchVideoInfo(url) {
   const raw = await runYtDlp([
     "--dump-json",
     "--no-playlist",
+    "--extractor-args", "youtube:player_client=web,default",
     "--js-runtimes", "node",
     "--remote-components", "ejs:github",
     ...cookieArgs,

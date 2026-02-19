@@ -41,6 +41,7 @@ router.post("/", downloadLimiter, async (req, res) => {
   if (format === "mp3") {
     ytArgs = [
       "--no-playlist",
+      "--extractor-args", "youtube:player_client=web,default",
       "--js-runtimes", "node",
       "--remote-components", "ejs:github",
       ...cookieArgs,
@@ -55,6 +56,7 @@ router.post("/", downloadLimiter, async (req, res) => {
   } else {
     ytArgs = [
       "--no-playlist",
+      "--extractor-args", "youtube:player_client=web,default",
       "--js-runtimes", "node",
       "--remote-components", "ejs:github",
       ...cookieArgs,
