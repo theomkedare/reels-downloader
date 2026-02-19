@@ -29,27 +29,39 @@ router.post("/", downloadLimiter, async (req, res) => {
   const tempId = uuidv4();
   const outTemplate = path.join(tempDir, `${tempId}.%(ext)s`);
 
+  // ── Cookie setup for YouTube bot detection fix ──
+  let cookieArgs = [];
+  if (process.env.YT_COOKIES) {
+    const cookiePath = path.join(tempDir, "yt-cookies.txt");
+    fs.writeFileSync(cookiePath, process.env.YT_COOKIES);
+    cookieArgs = ["--cookies", cookiePath];
+  }
+
   let ytArgs;
   if (format === "mp3") {
     ytArgs = [
-  "--no-playlist",
-  "-f", "bestaudio/best",
-  "--extract-audio",
-  "--audio-format", "mp3",
-  "--audio-quality", "192K",
-  "--ffmpeg-location", ffmpegPath,  // ← add this line
-  "-o", outTemplate,
-  url,
-];
+      "--no-playlist",
+      "--js-runtimes", "nodejs",
+      ...cookieArgs,
+      "-f", "bestaudio/best",
+      "--extract-audio",
+      "--audio-format", "mp3",
+      "--audio-quality", "192K",
+      "--ffmpeg-location", ffmpegPath,
+      "-o", outTemplate,
+      url,
+    ];
   } else {
     ytArgs = [
       "--no-playlist",
+      "--js-runtimes", "nodejs",
+      ...cookieArgs,
       "-f", `bestvideo[height<=${height}]+bestaudio/best[height<=${height}]/best`,
       "--merge-output-format", "mp4",
-      "--ffmpeg-location", ffmpegPath,  // ← add this line
+      "--ffmpeg-location", ffmpegPath,
       "-o", outTemplate,
       url,
-];
+    ];
   }
 
   let tempFilePath = null;
