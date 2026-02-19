@@ -17,11 +17,17 @@ mongoose
   .then(() => console.log("✅ MongoDB connected"))
   .catch((err) => console.error("❌ MongoDB connection error:", err));
 
-app.use(cors({
-  origin: process.env.FRONTEND_URL || "http://localhost:5173",
-  methods: ["GET", "POST"],
-  credentials: true,
-}));
+app.use(
+  cors({
+    origin: [
+      "https://reels.omkedare.dev",
+      "https://reels-downloader-sepia.vercel.app",
+      "http://localhost:5173"
+    ],
+    methods: ["GET", "POST"],
+    credentials: true,
+  })
+);
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
