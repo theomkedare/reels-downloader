@@ -41,6 +41,7 @@ async function fetchVideoInfo(url) {
     "--dump-json",
     "--no-playlist",
     "--js-runtimes", "node",
+    "--remote-components", "ejs:github",
     ...cookieArgs,
     url
   ]);

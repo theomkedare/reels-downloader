@@ -42,6 +42,7 @@ router.post("/", downloadLimiter, async (req, res) => {
     ytArgs = [
       "--no-playlist",
       "--js-runtimes", "node",
+      "--remote-components", "ejs:github",
       ...cookieArgs,
       "-f", "bestaudio/best",
       "--extract-audio",
@@ -55,6 +56,7 @@ router.post("/", downloadLimiter, async (req, res) => {
     ytArgs = [
       "--no-playlist",
       "--js-runtimes", "node",
+      "--remote-components", "ejs:github",
       ...cookieArgs,
       "-f", `bestvideo[height<=${height}]+bestaudio/best[height<=${height}]/best`,
       "--merge-output-format", "mp4",
