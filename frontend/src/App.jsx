@@ -1,4 +1,5 @@
 import React from "react";
+import { Analytics } from "@vercel/analytics/react";
 import DownloaderCard from "./components/DownloaderCard";
 
 export default function App() {
@@ -15,6 +16,7 @@ export default function App() {
       <div className="relative z-10 w-full max-w-lg">
         <DownloaderCard />
       </div>
+      <Analytics />
     </div>
   );
 }
